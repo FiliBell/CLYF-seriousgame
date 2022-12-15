@@ -84,24 +84,24 @@ class ViewGuestActivity : AppCompatActivity() {
                 contatore += 1
                 adderStructure(questions, questionView, answer1View, answer2View, answer3View)
                 answer1View.setOnClickListener {
-                    if (!guestCorrectAnswers.get(contatore).equals(null)){
+                    if (guestCorrectAnswers.size.equals(correctAnswers.size)){
                         guestCorrectAnswers.set(contatore, answer1View.text.toString())
                     }else{
                         guestCorrectAnswers.add(contatore, answer1View.text.toString())
                     }
                 }
                 answer2View.setOnClickListener {
-                    if (!guestCorrectAnswers.get(contatore).equals(null)){
-                        guestCorrectAnswers.set(contatore, answer1View.text.toString())
+                    if (guestCorrectAnswers.size.equals(correctAnswers.size)){
+                        guestCorrectAnswers.set(contatore, answer2View.text.toString())
                     }else{
-                        guestCorrectAnswers.add(contatore, answer1View.text.toString())
+                        guestCorrectAnswers.add(contatore, answer2View.text.toString())
                     }
                 }
                 answer3View.setOnClickListener {
-                    if (!guestCorrectAnswers.get(contatore).equals(null)){
-                        guestCorrectAnswers.set(contatore, answer1View.text.toString())
+                    if (guestCorrectAnswers.size.equals(correctAnswers.size)){
+                        guestCorrectAnswers.set(contatore, answer3View.text.toString())
                     }else{
-                        guestCorrectAnswers.add(contatore, answer1View.text.toString())
+                        guestCorrectAnswers.add(contatore, answer3View.text.toString())
                     }
                 }
 
@@ -115,41 +115,38 @@ class ViewGuestActivity : AppCompatActivity() {
                         Log.d("QUESTION", questions.toString())
                         Log.d("CORRECT_ANSWER", correctAnswers.toString())
                         Log.d("GUEST", guestCorrectAnswers.toString())
+                        for (i in 0 until guestCorrectAnswers.size){
+                            if (correctAnswers.get(i).equals(guestCorrectAnswers.get(i))){
+                                score += 1
+                            }else{
+                                continue
+                            }
+                        }
+                        Log.d("SCORE", score.toString())
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
                     }else{
                         adderStructure(questions, questionView, answer1View, answer2View, answer3View)
                         answer1View.setOnClickListener {
-                            if (!correctAnswers.get(contatore).equals(null)){
-                                correctAnswers.set(contatore, answer1View.text.toString())
+                            if (guestCorrectAnswers.size.equals(correctAnswers.size)){
+                                guestCorrectAnswers.set(contatore, answer1View.text.toString())
                             }else{
-                                correctAnswers.add(contatore, answer1View.text.toString())
+                                guestCorrectAnswers.add(contatore, answer1View.text.toString())
                             }
                         }
                         answer2View.setOnClickListener {
-                            if (!correctAnswers.get(contatore).equals(null)){
-                                correctAnswers.set(contatore, answer1View.text.toString())
+                            if (guestCorrectAnswers.size.equals(correctAnswers.size)){
+                                guestCorrectAnswers.set(contatore, answer2View.text.toString())
                             }else{
-                                correctAnswers.add(contatore, answer1View.text.toString())
+                                guestCorrectAnswers.add(contatore, answer2View.text.toString())
                             }
                         }
                         answer3View.setOnClickListener {
-                            if (!correctAnswers.get(contatore).equals(null)){
-                                correctAnswers.set(contatore, answer1View.text.toString())
+                            if (guestCorrectAnswers.size.equals(correctAnswers.size)){
+                                guestCorrectAnswers.set(contatore, answer3View.text.toString())
                             }else{
-                                correctAnswers.add(contatore, answer1View.text.toString())
+                                guestCorrectAnswers.add(contatore, answer3View.text.toString())
                             }
-                        }
-
-                        if (questions.size.equals(0)){
-                            for (i in 0 until guestCorrectAnswers.size){
-                                if (correctAnswers.get(i).equals(guestCorrectAnswers.get(i))){
-                                    score += 1
-                                }else{
-                                    continue
-                                }
-                            }
-                            Log.d("SCORE", score.toString())
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
                         }
 
                     }
