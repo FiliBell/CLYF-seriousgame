@@ -67,21 +67,15 @@ class ViewAdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_admin)
 
-        // on below line we are initializing our variables.
         recyclerView = findViewById(R.id.recyclerViewId)
         contenitore = ArrayList()
         layoutManager = LinearLayoutManager(this)
 
-        // on below line we are adding our list to our adapter.
         adapter = QuizAdapter(contenitore, this)
 
-        // on below line we are setting
-        // adapter to our recycler view.
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
 
-        // on below line we are adding click listener
-        // for our add button.
         refresh.setOnClickListener {
             db.collection(supportID).whereNotEqualTo("Question", null).get()
                 .addOnSuccessListener { result ->
@@ -103,8 +97,7 @@ class ViewAdminActivity : AppCompatActivity() {
                     }
                 }
         }
-        // on below line we are notifying adapter
-        // that data in adapter has been updated.
+
         adapter.notifyDataSetChanged()
 
         create.setOnClickListener {
@@ -441,7 +434,6 @@ class ViewAdminActivity : AppCompatActivity() {
             var dataAdder : MutableMap<String, Any>
 
             quizPasswordSave.setOnClickListener {
-
                 quizPassword = quizPasswordET.text.toString()
                 if (!TextUtils.isEmpty(quizPassword)){
                     dataAdder = hashMapOf()
@@ -464,17 +456,9 @@ class ViewAdminActivity : AppCompatActivity() {
                 }else{
                     Toast.makeText(this, "Quiz password field empty", Toast.LENGTH_LONG).show()
                 }
-
             }
 
-
-
-
-
         }
-
-
-        //Toast.makeText(this, "Password already used", Toast.LENGTH_LONG).show()
 
     }
 
