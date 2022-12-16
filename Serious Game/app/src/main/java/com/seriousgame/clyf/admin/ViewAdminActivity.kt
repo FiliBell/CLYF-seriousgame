@@ -109,78 +109,91 @@ class ViewAdminActivity : AppCompatActivity() {
             dialogCreate = dialogBuilderCreate!!.create()
             dialogCreate.show()
 
-            //association of popup elements to variables - Y.
-            var quizNameField = viewCreate.editText
-            var questionButton = viewCreate.question_menu
-            var save1 = viewCreate.save1
+            db.collection(supportID).whereNotEqualTo("Quiz_name", null).get()
+                .addOnSuccessListener { result ->
+                    var control = true
+                    for (document in result){
+                        control = false
+                        Toast.makeText(this, "you have already created a quiz", Toast.LENGTH_LONG).show()
+                        dialogCreate.dismiss()
+                    }
+                    if (control){
+                        //association of popup elements to variables - Y.
+                        var quizNameField = viewCreate.editText
+                        var questionButton = viewCreate.question_menu
+                        var save1 = viewCreate.save1
 
-            var quiz : MutableMap<String, Any>  //map that will contain the data that the user wants to enter - Y.
-            var quizName : MutableMap<String, Any> = hashMapOf()    //map that will contain the name of the quiz - Y.
+                        var quiz : MutableMap<String, Any>  //map that will contain the data that the user wants to enter - Y.
+                        var quizName : MutableMap<String, Any> = hashMapOf()    //map that will contain the name of the quiz - Y.
 
-            var container : ArrayList<MutableMap<String, Any>> = ArrayList()  //array containing all the questions the user wants to enter (array of maps) - Y.
+                        var container : ArrayList<MutableMap<String, Any>> = ArrayList()  //array containing all the questions the user wants to enter (array of maps) - Y.
 
-            questionButton.setOnClickListener {
-                //popup creation - G.
-                var dialogBuilderQuestions : AlertDialog.Builder
-                var dialogQuestions : AlertDialog?
-                var viewQuestions = LayoutInflater.from(this).inflate(R.layout.popup_questions, null, false)
-                dialogBuilderQuestions = AlertDialog.Builder(this).setView(viewQuestions)
-                dialogQuestions = dialogBuilderQuestions!!.create()
-                dialogQuestions.show()
+                        questionButton.setOnClickListener {
+                            //popup creation - G.
+                            var dialogBuilderQuestions : AlertDialog.Builder
+                            var dialogQuestions : AlertDialog?
+                            var viewQuestions = LayoutInflater.from(this).inflate(R.layout.popup_questions, null, false)
+                            dialogBuilderQuestions = AlertDialog.Builder(this).setView(viewQuestions)
+                            dialogQuestions = dialogBuilderQuestions!!.create()
+                            dialogQuestions.show()
 
-                //association of popup elements to variables - G.
-                var question = viewQuestions.question
-                var answer1 = viewQuestions.answer1
-                var answer2 = viewQuestions.answer2
-                var answer3 = viewQuestions.answer3
-                var correctAnswer = viewQuestions.correctanswer
-                var save1 = viewQuestions.save2
+                            //association of popup elements to variables - G.
+                            var question = viewQuestions.question
+                            var answer1 = viewQuestions.answer1
+                            var answer2 = viewQuestions.answer2
+                            var answer3 = viewQuestions.answer3
+                            var correctAnswer = viewQuestions.correctanswer
+                            var save1 = viewQuestions.save2
 
-                save1.setOnClickListener {
-                    //check if the fields are not empty - G.
-                    if (!TextUtils.isEmpty(question.text) && !TextUtils.isEmpty(answer1.text) && !TextUtils.isEmpty(answer2.text) && !TextUtils.isEmpty(answer3.text) && !TextUtils.isEmpty(correctAnswer.text)){
-                        //check if the correct answer is equal to one of the answers - G.
-                        if ((correctAnswer.text.toString() == answer1.text.toString()) || ((correctAnswer.text.toString() == answer2.text.toString()) || (correctAnswer.text.toString() == answer3.text.toString()))){
+                            save1.setOnClickListener {
+                                //check if the fields are not empty - G.
+                                if (!TextUtils.isEmpty(question.text) && !TextUtils.isEmpty(answer1.text) && !TextUtils.isEmpty(answer2.text) && !TextUtils.isEmpty(answer3.text) && !TextUtils.isEmpty(correctAnswer.text)){
+                                    //check if the correct answer is equal to one of the answers - G.
+                                    if ((correctAnswer.text.toString() == answer1.text.toString()) || ((correctAnswer.text.toString() == answer2.text.toString()) || (correctAnswer.text.toString() == answer3.text.toString()))){
 
-                            //map creation and assignment of values entered by the user - G.
-                            quiz = hashMapOf()
-                            quiz["Question"] = question.text.toString()
-                            quiz["Answer1"] = answer1.text.toString()
-                            quiz["Answer2"] = answer2.text.toString()
-                            quiz["Answer3"] = answer3.text.toString()
-                            quiz["Correct_answer"] = correctAnswer.text.toString()
+                                        //map creation and assignment of values entered by the user - G.
+                                        quiz = hashMapOf()
+                                        quiz["Question"] = question.text.toString()
+                                        quiz["Answer1"] = answer1.text.toString()
+                                        quiz["Answer2"] = answer2.text.toString()
+                                        quiz["Answer3"] = answer3.text.toString()
+                                        quiz["Correct_answer"] = correctAnswer.text.toString()
 
-                            container.add(quiz)   //adding quizzes to container - G.
-                            dialogQuestions.dismiss()   //pop-up close - G.
-                        }else{
-                            Toast.makeText(this, "The correct answer must be equal to one of the answers", Toast.LENGTH_LONG).show()    //error message - G.
+                                        container.add(quiz)   //adding quizzes to container - G.
+                                        dialogQuestions.dismiss()   //pop-up close - G.
+                                    }else{
+                                        Toast.makeText(this, "The correct answer must be equal to one of the answers", Toast.LENGTH_LONG).show()    //error message - G.
+                                    }
+                                }else{
+                                    Toast.makeText(this, "One of the fields is empty", Toast.LENGTH_LONG).show()    //error message - G.
+                                }
+                            }
                         }
-                    }else{
-                        Toast.makeText(this, "One of the fields is empty", Toast.LENGTH_LONG).show()    //error message - G.
+
+                        save1.setOnClickListener {
+                            if (!TextUtils.isEmpty(quizNameField.text)){ //check if the "quiz name" field is not empty - S.
+                                quizName["Quiz_name"] = quizNameField.text.toString()    //database field creation - S.
+                                db.collection(supportID).document().set(quizName)    //add quiz name to database - S.
+                                    .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
+                                    .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+
+                                for (i in 0 until container.size){
+                                    var support = container.get(i)  //we take the i-th element from the container and insert it into support - S.
+
+                                    db.collection(supportID).document().set(support)    //inserting the i-th element into the database - S.
+                                        .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
+                                        .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+                                }
+
+                                dialogCreate.dismiss()  //pop-up close - S.
+                            }else{
+                                Toast.makeText(this, "Quiz name field empty", Toast.LENGTH_LONG).show() //error message - S.
+                            }
+                        }
                     }
+
                 }
-            }
 
-            save1.setOnClickListener {
-                if (!TextUtils.isEmpty(quizNameField.text)){ //check if the "quiz name" field is not empty - S.
-                    quizName["Quiz_name"] = quizNameField.text.toString()    //database field creation - S.
-                    db.collection(supportID).document().set(quizName)    //add quiz name to database - S.
-                        .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
-                        .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
-
-                    for (i in 0 until container.size){
-                        var support = container.get(i)  //we take the i-th element from the container and insert it into support - S.
-
-                        db.collection(supportID).document().set(support)    //inserting the i-th element into the database - S.
-                            .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
-                            .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
-                    }
-
-                    dialogCreate.dismiss()  //pop-up close - S.
-                }else{
-                    Toast.makeText(this, "Quiz name field empty", Toast.LENGTH_LONG).show() //error message - S.
-                }
-            }
         }
 
         add.setOnClickListener {
