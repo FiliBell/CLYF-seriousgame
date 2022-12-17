@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".guest.LeaderboardActivity">
+    tools:context=".guest.LeaderboardActivity"
+    android:background="@drawable/leaderboardwall">
 
     <TextView
         android:id="@+id/leaderboardTitleTV"
@@ -13,6 +14,8 @@
         android:text="LEADERBOARD"
         android:textSize="30dp"
         android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
