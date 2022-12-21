@@ -16,6 +16,7 @@ import com.seriousgame.clyf.auth.supportID
 import kotlinx.android.synthetic.main.activity_guest_data.*
 import kotlinx.android.synthetic.main.popup_password.view.*
 
+@Suppress("NAME_SHADOWING")
 class GuestDataActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

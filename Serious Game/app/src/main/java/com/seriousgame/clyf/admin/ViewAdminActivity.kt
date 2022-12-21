@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.popup_modify.view.*
 import kotlinx.android.synthetic.main.popup_questions.view.*
 import kotlinx.android.synthetic.main.popup_quizname.view.*
 
+@Suppress("NAME_SHADOWING")
 class ViewAdminActivity : AppCompatActivity() {
 
     lateinit var recyclerView: RecyclerView
