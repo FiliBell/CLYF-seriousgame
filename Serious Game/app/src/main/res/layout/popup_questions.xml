@@ -17,7 +17,7 @@
             android:id="@+id/question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter the question"
+            android:hint="@string/enter_the_question"
             android:textAlignment="center"
             android:gravity="center"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -32,7 +32,7 @@
             android:id="@+id/answer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter the answer one"
+            android:hint="@string/enter_the_answer_one"
             android:textAlignment="center"
             android:gravity="center"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -47,7 +47,7 @@
             android:id="@+id/answer2"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:hint="Enter the answer two"
+            android:hint="@string/enter_the_answer_two"
             android:textAlignment="center"
             android:gravity="center"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -62,7 +62,7 @@
             android:id="@+id/answer3"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:hint="Enter the answer three"
+            android:hint="@string/enter_the_answer_three"
             android:textAlignment="center"
             android:gravity="center"/>
 
@@ -78,7 +78,7 @@
             android:id="@+id/correctanswer"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:hint="Enter the correct answer"
+            android:hint="@string/enter_the_correct_answer"
             android:textAlignment="center"
             android:gravity="center"/>
 
@@ -88,7 +88,7 @@
         android:id="@+id/save2"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="save"
+        android:text="@string/save"
         android:padding="15dp"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="50dp"/>

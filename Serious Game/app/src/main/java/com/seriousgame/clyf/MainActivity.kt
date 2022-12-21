@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.seriousgame.clyf.auth.SignIn
 import com.seriousgame.clyf.guest.GuestDataActivity
-import com.seriousgame.clyf.guest.LeaderboardActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

@@ -12,26 +12,17 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.seriousgame.clyf.MainActivity
 import com.seriousgame.clyf.R
 import com.seriousgame.clyf.auth.db
-import com.seriousgame.clyf.auth.quizBlock
 import com.seriousgame.clyf.auth.supportID
 import kotlinx.android.synthetic.main.activity_view_admin.*
 import kotlinx.android.synthetic.main.popup_create.view.*
 import kotlinx.android.synthetic.main.popup_delete.view.*
-import kotlinx.android.synthetic.main.popup_exit.*
 import kotlinx.android.synthetic.main.popup_exit.view.*
 import kotlinx.android.synthetic.main.popup_modify.view.*
 import kotlinx.android.synthetic.main.popup_questions.view.*
 import kotlinx.android.synthetic.main.popup_quizname.view.*
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import org.w3c.dom.Text
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class ViewAdminActivity : AppCompatActivity() {
 
@@ -40,6 +31,7 @@ class ViewAdminActivity : AppCompatActivity() {
     lateinit var adapter: QuizAdapter
     lateinit var layoutManager: RecyclerView.LayoutManager
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun refreshDatabase(x: ArrayList<String>) {
         if (contenitore.size == 0){
             contenitore.add(x)
@@ -49,7 +41,7 @@ class ViewAdminActivity : AppCompatActivity() {
             var contatore = 0
             for (i in 0 until contenitore.size){
                 contatore += 1
-                var confrontoSupport = contenitore.get(i)
+                val confrontoSupport = contenitore.get(i)
 
                 if (x.get(0) == confrontoSupport.get(0)){
                     break
@@ -65,6 +57,7 @@ class ViewAdminActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_admin)
@@ -82,13 +75,13 @@ class ViewAdminActivity : AppCompatActivity() {
             db.collection(supportID).whereNotEqualTo("Question", null).get()
                 .addOnSuccessListener { result ->
                     for (document in result){
-                        var question = document.data["Question"].toString()
-                        var answer1 = document.data["Answer1"].toString()
-                        var answer2 = document.data["Answer2"].toString()
-                        var answer3 = document.data["Answer3"].toString()
-                        var correctAnswer = document.data["Correct_answer"].toString()
+                        val question = document.data["Question"].toString()
+                        val answer1 = document.data["Answer1"].toString()
+                        val answer2 = document.data["Answer2"].toString()
+                        val answer3 = document.data["Answer3"].toString()
+                        val correctAnswer = document.data["Correct_answer"].toString()
 
-                        var arraySupport : ArrayList<String> = ArrayList()
+                        val arraySupport : ArrayList<String> = ArrayList()
                         arraySupport.add(question)
                         arraySupport.add(answer1)
                         arraySupport.add(answer2)
@@ -104,11 +97,11 @@ class ViewAdminActivity : AppCompatActivity() {
 
         create.setOnClickListener {
             //popup creation - Y.
-            var dialogBuilderCreate : AlertDialog.Builder
-            var dialogCreate : AlertDialog?
-            var viewCreate = LayoutInflater.from(this).inflate(R.layout.popup_create, null, false)
+            val dialogBuilderCreate : AlertDialog.Builder
+            val dialogCreate : AlertDialog?
+            val viewCreate = LayoutInflater.from(this).inflate(R.layout.popup_create, null, false)
             dialogBuilderCreate = AlertDialog.Builder(this).setView(viewCreate)
-            dialogCreate = dialogBuilderCreate!!.create()
+            dialogCreate = dialogBuilderCreate.create()
             dialogCreate.show()
 
             db.collection(supportID).whereNotEqualTo("Quiz_name", null).get()
@@ -121,31 +114,31 @@ class ViewAdminActivity : AppCompatActivity() {
                     }
                     if (control){
                         //association of popup elements to variables - Y.
-                        var quizNameField = viewCreate.editText
-                        var questionButton = viewCreate.question_menu
-                        var save1 = viewCreate.save1
+                        val quizNameField = viewCreate.editText
+                        val questionButton = viewCreate.question_menu
+                        val save1 = viewCreate.save1
 
                         var quiz : MutableMap<String, Any>  //map that will contain the data that the user wants to enter - Y.
-                        var quizName : MutableMap<String, Any> = hashMapOf()    //map that will contain the name of the quiz - Y.
+                        val quizName : MutableMap<String, Any> = hashMapOf()    //map that will contain the name of the quiz - Y.
 
-                        var container : ArrayList<MutableMap<String, Any>> = ArrayList()  //array containing all the questions the user wants to enter (array of maps) - Y.
+                        val container : ArrayList<MutableMap<String, Any>> = ArrayList()  //array containing all the questions the user wants to enter (array of maps) - Y.
 
                         questionButton.setOnClickListener {
                             //popup creation - G.
-                            var dialogBuilderQuestions : AlertDialog.Builder
-                            var dialogQuestions : AlertDialog?
-                            var viewQuestions = LayoutInflater.from(this).inflate(R.layout.popup_questions, null, false)
+                            val dialogBuilderQuestions : AlertDialog.Builder
+                            val dialogQuestions : AlertDialog?
+                            val viewQuestions = LayoutInflater.from(this).inflate(R.layout.popup_questions, null, false)
                             dialogBuilderQuestions = AlertDialog.Builder(this).setView(viewQuestions)
-                            dialogQuestions = dialogBuilderQuestions!!.create()
+                            dialogQuestions = dialogBuilderQuestions.create()
                             dialogQuestions.show()
 
                             //association of popup elements to variables - G.
-                            var question = viewQuestions.question
-                            var answer1 = viewQuestions.answer1
-                            var answer2 = viewQuestions.answer2
-                            var answer3 = viewQuestions.answer3
-                            var correctAnswer = viewQuestions.correctanswer
-                            var save1 = viewQuestions.save2
+                            val question = viewQuestions.question
+                            val answer1 = viewQuestions.answer1
+                            val answer2 = viewQuestions.answer2
+                            val answer3 = viewQuestions.answer3
+                            val correctAnswer = viewQuestions.correctanswer
+                            val save1 = viewQuestions.save2
 
                             save1.setOnClickListener {
                                 //check if the fields are not empty - G.
@@ -185,7 +178,7 @@ class ViewAdminActivity : AppCompatActivity() {
                                     .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
 
                                 for (i in 0 until container.size){
-                                    var support = container.get(i)  //we take the i-th element from the container and insert it into support - S.
+                                    val support = container.get(i)  //we take the i-th element from the container and insert it into support - S.
 
                                     db.collection(supportID).document().set(support)    //inserting the i-th element into the database - S.
                                         .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
@@ -205,20 +198,20 @@ class ViewAdminActivity : AppCompatActivity() {
 
         add.setOnClickListener {
             //popup creation - F.
-            var dialogBuilderAdd : AlertDialog.Builder
-            var dialogAdd : AlertDialog?
-            var viewAdd = LayoutInflater.from(this).inflate(R.layout.popup_questions, null, false)
+            val dialogBuilderAdd : AlertDialog.Builder
+            val dialogAdd : AlertDialog?
+            val viewAdd = LayoutInflater.from(this).inflate(R.layout.popup_questions, null, false)
             dialogBuilderAdd = AlertDialog.Builder(this).setView(viewAdd)
-            dialogAdd = dialogBuilderAdd!!.create()
+            dialogAdd = dialogBuilderAdd.create()
             dialogAdd.show()
 
             //association of popup elements to variables - F.
-            var question = viewAdd.question
-            var answer1 = viewAdd.answer1
-            var answer2 = viewAdd.answer2
-            var answer3 = viewAdd.answer3
-            var correctAnswer = viewAdd.correctanswer
-            var save = viewAdd.save2
+            val question = viewAdd.question
+            val answer1 = viewAdd.answer1
+            val answer2 = viewAdd.answer2
+            val answer3 = viewAdd.answer3
+            val correctAnswer = viewAdd.correctanswer
+            val save = viewAdd.save2
 
             var quiz : MutableMap<String, Any>  //map that will contain the data that the user wants to enter - F.
 
@@ -261,18 +254,18 @@ class ViewAdminActivity : AppCompatActivity() {
                                         quiz["Correct_answer"] = correctAnswer.text.toString()
 
                                         //popup creation - F.
-                                        var dialogBuilderAddName : AlertDialog.Builder
-                                        var dialogAddName : AlertDialog?
-                                        var viewAddName = LayoutInflater.from(this).inflate(R.layout.popup_quizname, null, false)
+                                        val dialogBuilderAddName : AlertDialog.Builder
+                                        val dialogAddName : AlertDialog?
+                                        val viewAddName = LayoutInflater.from(this).inflate(R.layout.popup_quizname, null, false)
                                         dialogBuilderAddName = AlertDialog.Builder(this).setView(viewAddName)
-                                        dialogAddName = dialogBuilderAddName!!.create()
+                                        dialogAddName = dialogBuilderAddName.create()
                                         dialogAddName.show()
 
                                         var quizNameAdder : MutableMap<String, Any>
-                                        var saveAddQuizName = viewAddName.saveAddQuizName
+                                        val saveAddQuizName = viewAddName.saveAddQuizName
 
                                         saveAddQuizName.setOnClickListener {
-                                            var quizNameET = viewAddName.addQuizName.text.toString()
+                                            val quizNameET = viewAddName.addQuizName.text.toString()
                                             if (!TextUtils.isEmpty(quizNameET)){
                                                 db.collection(supportID).document().set(quiz)   //entering data into the database - F.
                                                 quizNameAdder = hashMapOf()
@@ -306,18 +299,18 @@ class ViewAdminActivity : AppCompatActivity() {
         modify.setOnClickListener {
 
             //creation of support variables - Y.
-            var questionList : ArrayList<String> = ArrayList()
+            val questionList : ArrayList<String> = ArrayList()
             var questionToUpdate : String? = null
 
             //popup creation - Y.
-            var dialogBuilderModify : AlertDialog.Builder
-            var dialogModify : AlertDialog?
-            var viewModify = LayoutInflater.from(this).inflate(R.layout.popup_modify, null, false)
+            val dialogBuilderModify : AlertDialog.Builder
+            val dialogModify : AlertDialog?
+            val viewModify = LayoutInflater.from(this).inflate(R.layout.popup_modify, null, false)
             dialogBuilderModify = AlertDialog.Builder(this).setView(viewModify)
-            dialogModify = dialogBuilderModify!!.create()
+            dialogModify = dialogBuilderModify.create()
             dialogModify.show()
 
-            var modifyButton = viewModify.modify1
+            val modifyButton = viewModify.modify1
 
             db.collection(supportID).whereNotEqualTo("Quiz_name", null).get()
                 .addOnSuccessListener { result ->
@@ -339,8 +332,8 @@ class ViewAdminActivity : AppCompatActivity() {
 
                                 if (controlSupport){
                                     //creating the spinner and inserting data into it - Y.
-                                    var spinner : Spinner = viewModify.spinner
-                                    var adapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_item, questionList)
+                                    val spinner : Spinner = viewModify.spinner
+                                    val adapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_item, questionList)
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                                     spinner.adapter = adapter
 
@@ -361,10 +354,10 @@ class ViewAdminActivity : AppCompatActivity() {
 
                         modifyButton.setOnClickListener {
                             if (questionToUpdate != null){
-                                var originalSize = contenitore.size
+                                val originalSize = contenitore.size
                                 for (i in 0 until originalSize){
-                                    var supporto = contenitore.get(i)
-                                    var supporto2 = supporto.get(0)
+                                    val supporto = contenitore.get(i)
+                                    val supporto2 = supporto.get(0)
 
                                     if (supporto2 == questionToUpdate){
                                         contenitore.removeAt(i)
@@ -372,20 +365,20 @@ class ViewAdminActivity : AppCompatActivity() {
                                 }
 
                                 //popup creation - G.
-                                var dialogBuilderQuestion : AlertDialog.Builder
-                                var dialogQuestion : AlertDialog?
-                                var viewQuestion = LayoutInflater.from(this).inflate(R.layout.popup_questions, null, false)
+                                val dialogBuilderQuestion : AlertDialog.Builder
+                                val dialogQuestion : AlertDialog?
+                                val viewQuestion = LayoutInflater.from(this).inflate(R.layout.popup_questions, null, false)
                                 dialogBuilderQuestion = AlertDialog.Builder(this).setView(viewQuestion)
-                                dialogQuestion = dialogBuilderQuestion!!.create()
+                                dialogQuestion = dialogBuilderQuestion.create()
                                 dialogQuestion.show()
 
                                 //association of popup elements to variables - G.
-                                var question = viewQuestion.question
-                                var answer1 = viewQuestion.answer1
-                                var answer2 = viewQuestion.answer2
-                                var answer3 = viewQuestion.answer3
-                                var correctAnswer = viewQuestion.correctanswer
-                                var save = viewQuestion.save2
+                                val question = viewQuestion.question
+                                val answer1 = viewQuestion.answer1
+                                val answer2 = viewQuestion.answer2
+                                val answer3 = viewQuestion.answer3
+                                val correctAnswer = viewQuestion.correctanswer
+                                val save = viewQuestion.save2
 
                                 var quiz : MutableMap<String, Any>  //map that will contain the data that the user wants to enter - G.
 
@@ -411,7 +404,7 @@ class ViewAdminActivity : AppCompatActivity() {
                                                     .get()
                                                     .addOnSuccessListener { documents ->
                                                         for (document in documents) {
-                                                            var id = document.id    //we take the document ID and put it into a support variable - G.
+                                                            val id = document.id    //we take the document ID and put it into a support variable - G.
                                                             db.collection(supportID).document(id).update(quiz)  //update - G.
                                                         }
                                                     }
@@ -445,18 +438,18 @@ class ViewAdminActivity : AppCompatActivity() {
         delete.setOnClickListener {
 
             //creation of support variables - S.
-            var questionList : ArrayList<String> = ArrayList()
+            val questionList : ArrayList<String> = ArrayList()
             var questionToDelete : String? = null
 
             //popup creation - S.
-            var dialogBuilderDelete : AlertDialog.Builder
-            var dialogDelete : AlertDialog?
-            var viewDelete = LayoutInflater.from(this).inflate(R.layout.popup_delete, null, false)
+            val dialogBuilderDelete : AlertDialog.Builder
+            val dialogDelete : AlertDialog?
+            val viewDelete = LayoutInflater.from(this).inflate(R.layout.popup_delete, null, false)
             dialogBuilderDelete = AlertDialog.Builder(this).setView(viewDelete)
-            dialogDelete = dialogBuilderDelete!!.create()
+            dialogDelete = dialogBuilderDelete.create()
             dialogDelete.show()
 
-            var deleteButton = viewDelete.delete1
+            val deleteButton = viewDelete.delete1
 
             db.collection(supportID).whereNotEqualTo("Quiz_name", null).get()
                 .addOnSuccessListener { result ->
@@ -480,8 +473,8 @@ class ViewAdminActivity : AppCompatActivity() {
 
                                 if (controlSupport){
                                     //creating the spinner and inserting data into it - S.
-                                    var spinner : Spinner = viewDelete.spinner_delete
-                                    var adapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_item, questionList)
+                                    val spinner : Spinner = viewDelete.spinner_delete
+                                    val adapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_item, questionList)
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                                     spinner.adapter = adapter
 
@@ -502,11 +495,11 @@ class ViewAdminActivity : AppCompatActivity() {
 
                         deleteButton.setOnClickListener {
                             if (questionToDelete != null){
-                                var originalSize = contenitore.size
+                                val originalSize = contenitore.size
                                 Log.d("CONTENITORE", contenitore.toString())
                                 for (i in 0 until originalSize){
-                                    var supporto = contenitore.get(i)
-                                    var supporto2 = supporto.get(0)
+                                    val supporto = contenitore.get(i)
+                                    val supporto2 = supporto.get(0)
 
                                     if (supporto2 == questionToDelete){
                                         contenitore.removeAt(i)
@@ -521,7 +514,7 @@ class ViewAdminActivity : AppCompatActivity() {
                                     .get()
                                     .addOnSuccessListener { documents ->
                                         for (document in documents) {
-                                            var id = document.id    //we take the document ID and put it into a support variable - S.
+                                            val id = document.id    //we take the document ID and put it into a support variable - S.
                                             db.collection(supportID).document(id).delete()  //delete - S.
                                         }
                                     }
@@ -547,15 +540,15 @@ class ViewAdminActivity : AppCompatActivity() {
                     }
                     if (controlSupport){
 
-                        var dialogBuilderExit : AlertDialog.Builder
-                        var dialogExit : AlertDialog?
-                        var viewExit = LayoutInflater.from(this).inflate(R.layout.popup_exit, null, false)
+                        val dialogBuilderExit : AlertDialog.Builder
+                        val dialogExit : AlertDialog?
+                        val viewExit = LayoutInflater.from(this).inflate(R.layout.popup_exit, null, false)
                         dialogBuilderExit = AlertDialog.Builder(this).setView(viewExit)
-                        dialogExit = dialogBuilderExit!!.create()
+                        dialogExit = dialogBuilderExit.create()
                         dialogExit.show()
 
-                        var quizPasswordET = viewExit.QuizPasswordEditText
-                        var quizPasswordSave = viewExit.QuizPasswordSave
+                        val quizPasswordET = viewExit.QuizPasswordEditText
+                        val quizPasswordSave = viewExit.QuizPasswordSave
                         var quizPassword : String
                         var dataAdder : MutableMap<String, Any>
 

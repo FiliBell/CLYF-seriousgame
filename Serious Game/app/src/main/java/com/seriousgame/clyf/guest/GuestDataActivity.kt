@@ -8,15 +8,12 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.firestore.Query
-import com.seriousgame.clyf.MainActivity
 import com.seriousgame.clyf.R
-import com.seriousgame.clyf.admin.ViewAdminActivity
 import com.seriousgame.clyf.auth.db
 import com.seriousgame.clyf.auth.nicknameID
 import com.seriousgame.clyf.auth.scores
 import com.seriousgame.clyf.auth.supportID
 import kotlinx.android.synthetic.main.activity_guest_data.*
-import kotlinx.android.synthetic.main.popup_password.*
 import kotlinx.android.synthetic.main.popup_password.view.*
 
 class GuestDataActivity : AppCompatActivity() {
@@ -29,8 +26,8 @@ class GuestDataActivity : AppCompatActivity() {
 
         startButton.setOnClickListener {
 
-            var nickname = NicknameET.text.toString()
-            var quizPassword = QuizPassET.text.toString()
+            val nickname = NicknameET.text.toString()
+            val quizPassword = QuizPassET.text.toString()
 
             if (!TextUtils.isEmpty(nickname) && !TextUtils.isEmpty(quizPassword)){
                 var supportPass = ""
@@ -55,19 +52,19 @@ class GuestDataActivity : AppCompatActivity() {
         }
 
         leaderboardButton.setOnClickListener {
-            var dialogBuilderLead : AlertDialog.Builder
-            var dialogLead : AlertDialog?
-            var viewLead = LayoutInflater.from(this).inflate(R.layout.popup_password, null, false)
+            val dialogBuilderLead : AlertDialog.Builder
+            val dialogLead : AlertDialog?
+            val viewLead = LayoutInflater.from(this).inflate(R.layout.popup_password, null, false)
             dialogBuilderLead = AlertDialog.Builder(this).setView(viewLead)
-            dialogLead = dialogBuilderLead!!.create()
+            dialogLead = dialogBuilderLead.create()
             dialogLead.show()
 
             val nextButton = viewLead.nextLeaderboard
 
             nextButton.setOnClickListener {
 
-                var support = viewLead.passwordLeaderboard
-                var password = support.text.toString()
+                val support = viewLead.passwordLeaderboard
+                val password = support.text.toString()
                 if (!TextUtils.isEmpty(password)){
                     var supportPass = ""
                     db.collection("quizPasswords").whereEqualTo("quizPassword", password).get()
@@ -79,7 +76,7 @@ class GuestDataActivity : AppCompatActivity() {
                                     .addOnSuccessListener { result2 ->
                                         scores.clear()
                                         for (document in result2){
-                                            var arraySupport : ArrayList<String> = ArrayList()
+                                            val arraySupport : ArrayList<String> = ArrayList()
                                             arraySupport.add(document.data["Nickname"].toString())
                                             arraySupport.add(document.data["Score"].toString())
                                             scores.add(arraySupport)

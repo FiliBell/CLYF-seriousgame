@@ -17,7 +17,7 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Quiz name"
+            android:hint="@string/enter_quiz_name"
             android:textAlignment="center"
             android:gravity="center" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -27,14 +27,14 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
-        android:text="Inserisci domanda"
+        android:text="@string/enter_question"
         android:padding="15dp"/>
 
     <Button
         android:id="@+id/save1"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="salva"
+        android:text="@string/save"
         android:layout_marginBottom="100dp"
         android:padding="15dp"/>
 

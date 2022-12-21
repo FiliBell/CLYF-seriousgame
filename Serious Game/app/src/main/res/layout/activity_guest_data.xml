@@ -22,7 +22,7 @@
             android:id="@+id/NicknameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your Nickname" />
+            android:hint="@string/enter_your_nickname" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -41,7 +41,7 @@
             android:id="@+id/QuizPassET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Quiz password"
+            android:hint="@string/enter_quiz_password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +50,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:text="Enter"
+        android:text="@string/enter"
         android:textColor="@color/white"
         android:backgroundTint="@color/purple_500"
         android:textStyle="bold"
@@ -65,7 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:text="Have you already do the quiz? See leaderboard"
+        android:text="@string/have_you_already_do_the_quiz_see_leaderboard"
         android:textColor="@color/white"
         android:backgroundTint="@color/purple_500"
         android:textStyle="bold"

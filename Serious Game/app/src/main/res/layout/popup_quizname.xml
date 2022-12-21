@@ -18,7 +18,7 @@
             android:id="@+id/addQuizName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter the Quiz name"
+            android:hint="@string/enter_the_quiz_name"
             android:gravity="center"
             android:textAlignment="center" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -28,7 +28,7 @@
         android:id="@+id/saveAddQuizName"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="save"
+        android:text="@string/save"
         android:padding="15dp"
         android:layout_marginBottom="50dp"/>
 

@@ -1,9 +1,9 @@
 package com.seriousgame.clyf.guest
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.TextView
@@ -12,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import com.google.firebase.firestore.Query
 import com.seriousgame.clyf.MainActivity
 import com.seriousgame.clyf.R
-import com.seriousgame.clyf.admin.ViewAdminActivity
 import com.seriousgame.clyf.auth.*
 import kotlinx.android.synthetic.main.activity_view_guest.*
 import kotlinx.android.synthetic.main.popup_score.view.*
@@ -21,16 +20,16 @@ class ViewGuestActivity : AppCompatActivity() {
 
     fun adderStructure (x : ArrayList<String>, questionTV : TextView, answer1TV : Button, answer2TV : Button, answer3TV : Button){
 
-        var indexSupport = x.get(0)
+        val indexSupport = x.get(0)
 
         db.collection(supportID).whereEqualTo("Question", indexSupport).get()
             .addOnSuccessListener { result ->
                 for (document in result){
-                    var question = indexSupport
-                    var answer1 = document.data["Answer1"].toString()
-                    var answer2 = document.data["Answer2"].toString()
-                    var answer3 = document.data["Answer3"].toString()
-                    var correctAnswer = document.data["Correct_answer"].toString()
+                    val question = indexSupport
+                    val answer1 = document.data["Answer1"].toString()
+                    val answer2 = document.data["Answer2"].toString()
+                    val answer3 = document.data["Answer3"].toString()
+                    val correctAnswer = document.data["Correct_answer"].toString()
 
                     questionTV.text = question
                     answer1TV.text = answer1
@@ -51,16 +50,17 @@ class ViewGuestActivity : AppCompatActivity() {
     lateinit var correctAnswers : ArrayList<String>
     lateinit var guestCorrectAnswers : ArrayList<String>
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_guest)
 
-        var title = titleVT
-        var questionView = questionGuestView
-        var answer1View = answer1GuestView
-        var answer2View = answer2GuestView
-        var answer3View = answer3GuestView
-        var save = guestSave
+        val title = titleVT
+        val questionView = questionGuestView
+        val answer1View = answer1GuestView
+        val answer2View = answer2GuestView
+        val answer3View = answer3GuestView
+        val save = guestSave
 
         correctAnswers = ArrayList()
         questions = ArrayList()
@@ -71,7 +71,7 @@ class ViewGuestActivity : AppCompatActivity() {
         db.collection(supportID).whereNotEqualTo("Quiz_name", null).get()
             .addOnSuccessListener { result ->
                 for (document in result){
-                    var supportTitle = document.data["Quiz_name"].toString()
+                    val supportTitle = document.data["Quiz_name"].toString()
                     title.text = "Welcome to ${supportTitle} Quiz "
                 }
             }
@@ -79,11 +79,11 @@ class ViewGuestActivity : AppCompatActivity() {
         db.collection(supportID).whereNotEqualTo("Question", null).get()
             .addOnSuccessListener { result ->
                 for (document in result){
-                    var questionSupport = document.data["Question"].toString()
+                    val questionSupport = document.data["Question"].toString()
                     questions.add(questionSupport)
                 }
 
-                var originalSize = questions.size
+                val originalSize = questions.size
 
                 contatore += 1
                 adderStructure(questions, questionView, answer1View, answer2View, answer3View)
@@ -136,17 +136,17 @@ class ViewGuestActivity : AppCompatActivity() {
                                 }
                             }
                         }
-                        var dialogBuilderScore : AlertDialog.Builder
-                        var dialogScore : AlertDialog?
-                        var viewScore = LayoutInflater.from(this).inflate(R.layout.popup_score, null, false)
+                        val dialogBuilderScore : AlertDialog.Builder
+                        val dialogScore : AlertDialog?
+                        val viewScore = LayoutInflater.from(this).inflate(R.layout.popup_score, null, false)
                         dialogBuilderScore = AlertDialog.Builder(this).setView(viewScore)
-                        dialogScore = dialogBuilderScore!!.create()
+                        dialogScore = dialogBuilderScore.create()
                         dialogScore.show()
 
-                        var scoreTV = viewScore.scoreTV
-                        var leaderboardBtn = viewScore.leaderboardButton
-                        var homeBtn = viewScore.homeButton
-                        var scoreSupport : MutableMap<String, Any> = hashMapOf()
+                        val scoreTV = viewScore.scoreTV
+                        val leaderboardBtn = viewScore.leaderboardButton
+                        val homeBtn = viewScore.homeButton
+                        val scoreSupport : MutableMap<String, Any> = hashMapOf()
                         scoreSupport["ID"] = supportID
                         scoreSupport["Nickname"] = nicknameID
                         scoreSupport["Score"] = score.toString()
@@ -158,7 +158,7 @@ class ViewGuestActivity : AppCompatActivity() {
                                 .addOnSuccessListener { result ->
                                     scores.clear()
                                     for (document in result){
-                                        var arraySupport : ArrayList<String> = ArrayList()
+                                        val arraySupport : ArrayList<String> = ArrayList()
                                         arraySupport.add(document.data["Nickname"].toString())
                                         arraySupport.add(document.data["Score"].toString())
                                         scores.add(arraySupport)
@@ -173,7 +173,7 @@ class ViewGuestActivity : AppCompatActivity() {
                                 .addOnSuccessListener { result ->
                                     scores.clear()
                                     for (document in result){
-                                        var arraySupport : ArrayList<String> = ArrayList()
+                                        val arraySupport : ArrayList<String> = ArrayList()
                                         arraySupport.add(document.data["Nickname"].toString())
                                         arraySupport.add(document.data["Score"].toString())
                                         scores.add(arraySupport)

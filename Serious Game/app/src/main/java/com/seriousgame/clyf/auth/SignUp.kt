@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.seriousgame.clyf.R
-import com.seriousgame.clyf.databinding.ActivityMainBinding
 import com.seriousgame.clyf.databinding.ActivitySignUpBinding
 
 class SignUp : AppCompatActivity() {

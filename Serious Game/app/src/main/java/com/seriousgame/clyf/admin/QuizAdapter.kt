@@ -1,19 +1,17 @@
 package com.seriousgame.clyf.admin
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import com.seriousgame.clyf.R
-import com.seriousgame.clyf.auth.db
-import com.seriousgame.clyf.auth.quizBlock
-import com.seriousgame.clyf.auth.supportID
 
 class QuizAdapter(private var x: ArrayList<ArrayList<String>>, private var context: Context) : RecyclerView.Adapter<QuizAdapter.ViewHolder>() {
 
+    @SuppressLint("InflateParams")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.question_row, null, false)
         return ViewHolder(itemView)
@@ -35,7 +33,7 @@ class QuizAdapter(private var x: ArrayList<ArrayList<String>>, private var conte
         val correctAnswer : TextView = itemView.findViewById(R.id.correctAnswerView)
 
         fun arrayStructure(x : ArrayList<ArrayList<String>>, y : Int){
-            var arraySupport = x.get(y)
+            val arraySupport = x.get(y)
             question.text = arraySupport.get(0)
             answer1.text = arraySupport.get(1)
             answer2.text = arraySupport.get(2)

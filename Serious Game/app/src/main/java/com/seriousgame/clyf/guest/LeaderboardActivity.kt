@@ -4,7 +4,6 @@ package com.seriousgame.clyf.guest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.Query
@@ -25,8 +24,8 @@ class LeaderboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboard)
 
-        var home = homeLeaderboardButton
-        var refresh = refreshLeaderboardButton
+        val home = homeLeaderboardButton
+        val refresh = refreshLeaderboardButton
         recyclerView = findViewById(R.id.leaderboardRecycleView)
         layoutManager = LinearLayoutManager(this)
         adapter = LeaderboardAdapter(scores, this)
@@ -44,7 +43,7 @@ class LeaderboardActivity : AppCompatActivity() {
                 .addOnSuccessListener { result2 ->
                     scores.clear()
                     for (document in result2){
-                        var arraySupport : ArrayList<String> = ArrayList()
+                        val arraySupport : ArrayList<String> = ArrayList()
                         arraySupport.add(document.data["Nickname"].toString())
                         arraySupport.add(document.data["Score"].toString())
                         scores.add(arraySupport)
