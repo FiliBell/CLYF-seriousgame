@@ -539,44 +539,59 @@ class ViewAdminActivity : AppCompatActivity() {
 
         exit.setOnClickListener {
 
-            var dialogBuilderExit : AlertDialog.Builder
-            var dialogExit : AlertDialog?
-            var viewExit = LayoutInflater.from(this).inflate(R.layout.popup_exit, null, false)
-            dialogBuilderExit = AlertDialog.Builder(this).setView(viewExit)
-            dialogExit = dialogBuilderExit!!.create()
-            dialogExit.show()
+            db.collection("quizPasswords").whereEqualTo("ID", supportID).get()
+                .addOnSuccessListener { result ->
+                    var controlSupport = true
+                    for (document in result){
+                        controlSupport = false
+                    }
+                    if (controlSupport){
 
-            var quizPasswordET = viewExit.QuizPasswordEditText
-            var quizPasswordSave = viewExit.QuizPasswordSave
-            var quizPassword : String
-            var dataAdder : MutableMap<String, Any>
+                        var dialogBuilderExit : AlertDialog.Builder
+                        var dialogExit : AlertDialog?
+                        var viewExit = LayoutInflater.from(this).inflate(R.layout.popup_exit, null, false)
+                        dialogBuilderExit = AlertDialog.Builder(this).setView(viewExit)
+                        dialogExit = dialogBuilderExit!!.create()
+                        dialogExit.show()
 
-            quizPasswordSave.setOnClickListener {
-                quizPassword = quizPasswordET.text.toString()
-                if (!TextUtils.isEmpty(quizPassword)){
-                    dataAdder = hashMapOf()
-                    dataAdder["quizPassword"] = quizPassword
-                    dataAdder["ID"] = supportID
+                        var quizPasswordET = viewExit.QuizPasswordEditText
+                        var quizPasswordSave = viewExit.QuizPasswordSave
+                        var quizPassword : String
+                        var dataAdder : MutableMap<String, Any>
+
+                        quizPasswordSave.setOnClickListener {
+                            quizPassword = quizPasswordET.text.toString()
+                            if (!TextUtils.isEmpty(quizPassword)){
+                                dataAdder = hashMapOf()
+                                dataAdder["quizPassword"] = quizPassword
+                                dataAdder["ID"] = supportID
 
 
-                    db.collection("quizPasswords").whereEqualTo("quizPassword", quizPassword).get()
-                        .addOnSuccessListener{ result ->
-                            var supportPass = ""
-                            for (document in result){
-                                supportPass = document.data["quizPassword"].toString()
-                            }
-                            if (supportPass == quizPassword){
-                                Toast.makeText(this, "Password already used", Toast.LENGTH_LONG).show()
+                                db.collection("quizPasswords").whereEqualTo("quizPassword", quizPassword).get()
+                                    .addOnSuccessListener{ result ->
+                                        var supportPass = ""
+                                        for (document in result){
+                                            supportPass = document.data["quizPassword"].toString()
+                                        }
+                                        if (supportPass == quizPassword){
+                                            Toast.makeText(this, "Password already used", Toast.LENGTH_LONG).show()
+                                        }else{
+                                            db.collection("quizPasswords").document().set(dataAdder)
+                                            val intent = Intent(this, MainActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                    }
                             }else{
-                                db.collection("quizPasswords").document().set(dataAdder)
-                                val intent = Intent(this, MainActivity::class.java)
-                                startActivity(intent)
+                                Toast.makeText(this, "Quiz password field empty", Toast.LENGTH_LONG).show()
                             }
                         }
-                }else{
-                    Toast.makeText(this, "Quiz password field empty", Toast.LENGTH_LONG).show()
+
+                    }else{
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+
                 }
-            }
 
         }
 
