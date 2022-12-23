@@ -109,6 +109,11 @@
  - [x] Devs meeting
  - [x] Testing
  - [x] Commits and push
+ 
+ **Friday | December 23 - 2022**
+ - [x] Email verification implemented
+ - [x] Forgot password implemented
+ - [x] Firebase changes
 
 <br/>
 
