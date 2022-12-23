@@ -45,4 +45,6 @@
     <string name="correct_answer">CORRECT ANSWER</string>
     <string name="nickname">NICKNAME</string>
     <string name="score">SCORE</string>
+    <string name="forgot_password_reset_it_here">forgot password? reset it here</string>
+    <string name="forget_password">Forget Password</string>
 </resources>

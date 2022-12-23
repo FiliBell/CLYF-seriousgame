@@ -36,8 +36,13 @@ class SignUp : AppCompatActivity() {
 
                         //2nd inner if - S.
                         if (it.isSuccessful){ //successful case - S.
-                            val intent = Intent(this, SignIn::class.java) //define intent - S.
-                            startActivity(intent)   //takes you to SignIn activity - F.
+                            firebaseAuth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                                if (it.isSuccessful){
+                                    Toast.makeText(this, "user registered successfully. Please verify your email", Toast.LENGTH_LONG).show()
+                                    val intent = Intent(this, SignIn::class.java) //define intent - S.
+                                    startActivity(intent)   //takes you to SignIn activity - F.
+                                }
+                            }
                         }else{
                             if (pass.length < 6){
                                 Toast.makeText(this, "the password must contain at least six chars", Toast.LENGTH_LONG).show()

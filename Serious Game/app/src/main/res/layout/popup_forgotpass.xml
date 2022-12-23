@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/passwordwall">
+    android:background="@drawable/forgetpasswall">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="250dp"
@@ -13,20 +13,20 @@
         android:layout_marginBottom="50dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordLeaderboard"
+            android:id="@+id/emailForgotPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="@string/enter_the_quiz_password"
-            android:inputType="textPassword" />
+            android:hint="@string/enter_your_email"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/nextLeaderboard"
+        android:id="@+id/nextForgetPass"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="@string/next"
+        android:text="@string/forget_password"
         android:layout_marginBottom="30dp"/>
 
 </LinearLayout>
