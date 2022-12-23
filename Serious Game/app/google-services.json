@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "5468742291",
-    "project_id": "glyf-quiz",
-    "storage_bucket": "glyf-quiz.appspot.com"
+    "project_number": "511424692777",
+    "project_id": "clyf-seriousgame",
+    "storage_bucket": "clyf-seriousgame.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:5468742291:android:83bed42d779ce7d441a366",
+        "mobilesdk_app_id": "1:511424692777:android:e82fe64d42eefb3c08d238",
         "android_client_info": {
           "package_name": "com.seriousgame.clyf"
         }
       },
       "oauth_client": [
         {
-          "client_id": "5468742291-tsif54e8im34qa9ar0afsc6l3vf1ld0a.apps.googleusercontent.com",
+          "client_id": "511424692777-i71lv2pth3o06h2r9qfo9buq6h3453dj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBSRRA7TCCenYmj82qUaDRw6a9nIppKHH4"
+          "current_key": "AIzaSyBnvZCRpRKmc6QgnG45HOEsaL4SbMzeVi4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "5468742291-tsif54e8im34qa9ar0afsc6l3vf1ld0a.apps.googleusercontent.com",
+              "client_id": "511424692777-i71lv2pth3o06h2r9qfo9buq6h3453dj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
