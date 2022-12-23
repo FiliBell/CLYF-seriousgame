@@ -72,29 +72,26 @@ class ViewAdminActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
 
-        refresh.setOnClickListener {
-            db.collection(supportID).whereNotEqualTo("Question", null).get()
-                .addOnSuccessListener { result ->
-                    for (document in result){
-                        val question = document.data["Question"].toString()
-                        val answer1 = document.data["Answer1"].toString()
-                        val answer2 = document.data["Answer2"].toString()
-                        val answer3 = document.data["Answer3"].toString()
-                        val correctAnswer = document.data["Correct_answer"].toString()
+        db.collection(supportID).whereNotEqualTo("Question", null).get()
+            .addOnSuccessListener { result ->
+                for (document in result){
+                    val question = document.data["Question"].toString()
+                    val answer1 = document.data["Answer1"].toString()
+                    val answer2 = document.data["Answer2"].toString()
+                    val answer3 = document.data["Answer3"].toString()
+                    val correctAnswer = document.data["Correct_answer"].toString()
 
-                        val arraySupport : ArrayList<String> = ArrayList()
-                        arraySupport.add(question)
-                        arraySupport.add(answer1)
-                        arraySupport.add(answer2)
-                        arraySupport.add(answer3)
-                        arraySupport.add(correctAnswer)
+                    val arraySupport : ArrayList<String> = ArrayList()
+                    arraySupport.add(question)
+                    arraySupport.add(answer1)
+                    arraySupport.add(answer2)
+                    arraySupport.add(answer3)
+                    arraySupport.add(correctAnswer)
 
-                        refreshDatabase(arraySupport)
-                    }
+                    refreshDatabase(arraySupport)
+                    adapter.notifyDataSetChanged()
                 }
-        }
-
-        adapter.notifyDataSetChanged()
+            }
 
         create.setOnClickListener {
             //popup creation - Y.
@@ -123,6 +120,7 @@ class ViewAdminActivity : AppCompatActivity() {
                         val quizName : MutableMap<String, Any> = hashMapOf()    //map that will contain the name of the quiz - Y.
 
                         val container : ArrayList<MutableMap<String, Any>> = ArrayList()  //array containing all the questions the user wants to enter (array of maps) - Y.
+                        val containerSupport : ArrayList<ArrayList<String>> = ArrayList()
 
                         questionButton.setOnClickListener {
                             //popup creation - G.
@@ -157,6 +155,15 @@ class ViewAdminActivity : AppCompatActivity() {
                                             quiz["Answer3"] = answer3.text.toString()
                                             quiz["Correct_answer"] = correctAnswer.text.toString()
 
+                                            val supportAdder : ArrayList<String> = ArrayList()
+                                            supportAdder.add(question.text.toString())
+                                            supportAdder.add(answer1.text.toString())
+                                            supportAdder.add(answer2.text.toString())
+                                            supportAdder.add(answer3.text.toString())
+                                            supportAdder.add(correctAnswer.text.toString())
+
+                                            containerSupport.add(supportAdder)
+
                                             container.add(quiz)   //adding quizzes to container - G.
                                             dialogQuestions.dismiss()   //pop-up close - G.
                                         }else{
@@ -180,10 +187,13 @@ class ViewAdminActivity : AppCompatActivity() {
 
                                 for (i in 0 until container.size){
                                     val support = container.get(i)  //we take the i-th element from the container and insert it into support - S.
+                                    val support2 = containerSupport.get(i)
 
                                     db.collection(supportID).document().set(support)    //inserting the i-th element into the database - S.
                                         .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
                                         .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+
+                                    refreshDatabase(support2)
                                 }
 
                                 dialogCreate.dismiss()  //pop-up close - S.
@@ -224,6 +234,13 @@ class ViewAdminActivity : AppCompatActivity() {
                         //check if the correct answer is equal to one of the answers - F.
                         if ((correctAnswer.text.toString() == answer1.text.toString()) || ((correctAnswer.text.toString() == answer2.text.toString()) || (correctAnswer.text.toString() == answer3.text.toString()))){
 
+                            val support : ArrayList<String> = ArrayList()
+                            support.add(question.text.toString())
+                            support.add(answer1.text.toString())
+                            support.add(answer2.text.toString())
+                            support.add(answer3.text.toString())
+                            support.add(correctAnswer.text.toString())
+
                             db.collection(supportID).whereNotEqualTo("Quiz_name", null).get()
                                 .addOnSuccessListener { result ->
                                     var controlSupport = false
@@ -242,6 +259,8 @@ class ViewAdminActivity : AppCompatActivity() {
                                         db.collection(supportID).document().set(quiz)   //entering data into the database - F.
                                             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
                                             .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+
+                                        refreshDatabase(support)
 
                                         dialogAdd.dismiss() //pop-up close - F.
                                     }else{
@@ -269,6 +288,7 @@ class ViewAdminActivity : AppCompatActivity() {
                                             val quizNameET = viewAddName.addQuizName.text.toString()
                                             if (!TextUtils.isEmpty(quizNameET)){
                                                 db.collection(supportID).document().set(quiz)   //entering data into the database - F.
+                                                refreshDatabase(support)
                                                 quizNameAdder = hashMapOf()
                                                 quizNameAdder["Quiz_name"] = quizNameET
                                                 db.collection(supportID).document().set(quizNameAdder)
@@ -362,6 +382,8 @@ class ViewAdminActivity : AppCompatActivity() {
 
                                     if (supporto2 == questionToUpdate){
                                         contenitore.removeAt(i)
+                                        adapter.notifyDataSetChanged()
+                                        break
                                     }
                                 }
 
@@ -399,6 +421,13 @@ class ViewAdminActivity : AppCompatActivity() {
                                                 quiz["Answer3"] = answer3.text.toString()
                                                 quiz["Correct_answer"] = correctAnswer.text.toString()
 
+                                                val support : ArrayList<String> = ArrayList()
+                                                support.add(question.text.toString())
+                                                support.add(answer1.text.toString())
+                                                support.add(answer2.text.toString())
+                                                support.add(answer3.text.toString())
+                                                support.add(correctAnswer.text.toString())
+
                                                 //query the database and take all the documents with the component question equals to questionToUpdate - G.
                                                 db.collection(supportID)
                                                     .whereEqualTo("Question", questionToUpdate)
@@ -407,6 +436,7 @@ class ViewAdminActivity : AppCompatActivity() {
                                                         for (document in documents) {
                                                             val id = document.id    //we take the document ID and put it into a support variable - G.
                                                             db.collection(supportID).document(id).update(quiz)  //update - G.
+                                                            refreshDatabase(support)
                                                         }
                                                     }
 
@@ -497,7 +527,6 @@ class ViewAdminActivity : AppCompatActivity() {
                         deleteButton.setOnClickListener {
                             if (questionToDelete != null){
                                 val originalSize = contenitore.size
-                                Log.d("CONTENITORE", contenitore.toString())
                                 for (i in 0 until originalSize){
                                     val supporto = contenitore.get(i)
                                     val supporto2 = supporto.get(0)
