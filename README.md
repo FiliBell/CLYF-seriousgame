@@ -116,7 +116,7 @@
  - [x] Firebase changes
 
 **Saturday | December 24 - 2022**
- - [x] Instant refresh when adding questions and editing them implemented (roadmap point)
+ - [x] Instant refresh when adding questions and editing them implemented (**roadmap point**)
 
 <br/>
 
