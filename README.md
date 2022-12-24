@@ -115,6 +115,9 @@
  - [x] Forgot password implemented
  - [x] Firebase changes
 
+**Saturday | December 24 - 2022**
+ - [x] Instant refresh when adding questions and editing them implemented (roadmap point)
+
 <br/>
 
 ![app-screenshots](https://user-images.githubusercontent.com/78272736/208636846-6386ed29-9399-4b71-a371-3ee1a5759c02.png)
@@ -133,7 +136,7 @@ The way the app was designed and built, it allows for a wide range of upgrades a
  - [ ] Timer on quiz
  - [ ] Ability to participate @ public quizzes (created by unknown users)
  - [ ] App customization through themes
- - [ ] Instant refresh when adding questions and editing them
+ - [x] Instant refresh when adding questions and editing them
  
  <br/>
 
