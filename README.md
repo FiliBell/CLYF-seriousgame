@@ -173,7 +173,7 @@ The way the app was designed and built, it allows for a wide range of upgrades a
 5. Document your code at the end of each workday
 
 
-<br/><br/><br/>
+<br/>
 
 ![other-rules](https://user-images.githubusercontent.com/78272736/208241136-ac52fef8-6a83-4703-8418-48e6c28d7104.jpg)
 
