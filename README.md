@@ -117,6 +117,10 @@
 
 **Saturday | December 24 - 2022**
  - [x] Instant refresh when adding questions and editing them implemented (**roadmap point**)
+ 
+ **Tuesday | December 27 - 2022**
+ - [x] Settings button added 
+ - [x] Multi languages system implemented (**roadmap point**)
 
 <br/>
 
@@ -131,7 +135,7 @@
 The way the app was designed and built, it allows for a wide range of upgrades and features. This is the list of what we thought:
 
  - [ ] Sharing quiz via link 
- - [ ] Many languages - Allow access to the app by selecting the language
+ - [x] Many languages - Allow access to the app by selecting the language
  - [ ] Create a premium (paid) profile for the quiz creator for additional features
  - [ ] Timer on quiz
  - [ ] Ability to participate @ public quizzes (created by unknown users)
